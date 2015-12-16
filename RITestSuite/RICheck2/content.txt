@@ -1,13 +1,14 @@
 !path lib/*.jar
 !|dbfit.OracleTest|
 
-!|Connect|jdbc:oracle:thin:testuser/testpwd@localhost:1521:orcl| 
+!|Connect|jdbc:oracle:thin:pocuser/pocpwd@localhost:1521:orcl| 
 !define SQL2 {select count(*) as COUNT1 from (select c.CID, c.ID1, c.ID2, p.start_dt, p.end_dt, c.start_dt, c.end_dt from NEWCHILD c, newparent p where c.ID1=p.ID1 and c.ID2=p.ID2 and (to_date(c.start_dt,'DD/MM/YYYY') < to_date(p.start_dt,'DD/MM/YYYY') or  to_date(c.end_dt,'DD/MM/YYYY') > to_date(p.end_dt,'DD/MM/YYYY')))}|
 !|Query|${SQL2}|
 |COUNT1?|
 |>>lndg|
 
-!|Connect|jdbc:oracle:thin:pocuser/pocpwd@localhost:1521:orcl| 
+
+!|Connect|jdbc:oracle:thin:testuser/testpwd@localhost:1521:orcl| 
 !|Query|select case when :lndg >= (select count(*) as COUNT1 from (select c.CID, c.ID1, c.ID2, p.start_dt, p.end_dt, c.start_dt, c.end_dt from NEWCHILD c, newparent p where c.ID1=p.ID1 and c.ID2=p.ID2 and (to_date(c.start_dt,'DD/MM/YYYY') < to_date(p.start_dt,'DD/MM/YYYY') or  to_date(c.end_dt,'DD/MM/YYYY') > to_date(p.end_dt,'DD/MM/YYYY')))) then 'PASS' else 'FAIL' end as result from dual|
 |result?|
 |PASS|
