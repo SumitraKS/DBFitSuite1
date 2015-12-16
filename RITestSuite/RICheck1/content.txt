@@ -1,0 +1,14 @@
+!path lib/*.jar
+!|dbfit.OracleTest|
+
+!define SQL1 {select count(*) as COUNT from (select ID1, ID2 from NEWCHILD c where not exists (select * from NEWPARENT p where c.ID1 = p.ID1 and c.ID2 = p.ID2))} 
+
+!|Connect|jdbc:oracle:thin:testuser/testpwd@localhost:1521:orcl| 
+!|Query|${SQL1}|
+|COUNT?|
+|>>landing|
+
+!|Connect|jdbc:oracle:thin:pocuser/pocpwd@localhost:1521:orcl| 
+!|Query|select case when :landing >= (select count(*) as COUNT from(select ID1, ID2 from NEWCHILD c where not exists (select * from NEWPARENT p where c.ID1 = p.ID1 and c.ID2=p.ID2))) then 'PASS' else 'FAIL' end as result from dual|
+|result?|
+|PASS|
