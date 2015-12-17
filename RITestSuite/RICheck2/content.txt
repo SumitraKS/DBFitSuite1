@@ -14,4 +14,3 @@
 |result?|
 |PASS|
 
-This is a test
