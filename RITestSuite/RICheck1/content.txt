@@ -9,6 +9,6 @@
 |>>landing|
 
 !|Connect|jdbc:oracle:thin:pocuser/pocpwd@localhost:1521:orcl| 
-!|Query|select case when :landing >= (select count(*) as COUNT from(select ID1, ID2 from NEWCHILD c where not exists (select * from NEWPARENT p where c.ID1 = p.ID1 and c.ID2=p.ID2))) then 'PASS' else 'FAIL' end as result from dual|
+!|Query|select case when :landing >= (select count(*) as COUNT from(select ID1, ID2 from NEWCHILD c where not exists (select * from NEWPARENT p where c.ID1 = p.ID1 and c.ID2=p.ID2))) then 'FAIL' else 'PASS' end as result from dual|
 |result?|
-|PASS|
+|FAIL|
